@@ -1,4 +1,4 @@
-package com.example.siteservice.controller;
+package com.example.siteservice.functional.controller;
 
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Component
+@Component(value = "functionalSiteController")
 public class SiteController {
     private SiteRepository siteRepository;
 
