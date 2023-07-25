@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  site-service:
+    container_name: site-service
+    build:
+      context: .
+      dockerfile: ./src/main/docker/Dockerfile.dev
+    ports:
+      - '8080:8080'
+    volumes:
+      - app:/opt/app
+    cpus: 0.25
+    mem_limit: 128M
+
+volumes:
+  app:
