@@ -22,19 +22,15 @@ public class SiteController {
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Site>> view(@PathVariable(required = true) Long id) {
+    public Mono<ResponseEntity<Site>> view(@PathVariable Long id) {
+        for (int i = 0; i < 10000; i++) {}
         return siteRepository.findById(id)
-            .map(site -> {
-                if(site.isEmpty()) {
-                    return ResponseEntity.notFound().build();
-                }
-                return ResponseEntity.ok().body(site.get());
-            });
+            .map(ResponseEntity.ok()::body)
+            .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @GetMapping()
-    public Mono<ResponseEntity<Set<Site>>> list() {
-        return siteRepository.findAll()
-            .map(ResponseEntity.ok()::body);
+    public ResponseEntity<Mono<Set<Site>>> list() {
+        return ResponseEntity.ok().body(siteRepository.findAll());
     }
 }

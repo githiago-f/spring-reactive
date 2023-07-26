@@ -35,11 +35,9 @@ public class SiteController {
 
     public Mono<ServerResponse> list(ServerRequest request) {
         log.info("check list of sites on database");
-        return siteRepository.findAll().flatMap(
-            sites -> ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(sites))
-        );
+        return siteRepository.findAll()
+            .map(BodyInserters::fromValue)
+            .flatMap(ServerResponse.ok()::body);
     }
 
     public Mono<ServerResponse> view(ServerRequest request) {

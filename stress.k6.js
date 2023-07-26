@@ -14,7 +14,12 @@ export const options = {
 const counts = new Gauge('timing_count');
 
 export default function() {
-    const res = http.get('http://localhost:8080/sites/1');
+    const funcRes = http.get('http://localhost:8080/sites/1');
+    counts.add(funcRes.timings.waiting);
+    check(funcRes, { 'req_success': r => r.status === 200 });
+    sleep(0.04);
+
+    const res = http.get('http://localhost:8080/ann/sites/1');
     counts.add(res.timings.waiting);
     check(res, { 'req_success': r => r.status === 200 });
     sleep(0.04);

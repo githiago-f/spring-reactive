@@ -27,11 +27,11 @@ public class SiteRepository {
         return Mono.just(site);
     }
 
-    public Mono<Optional<Site>> findById(Long id) {
+    public Mono<Site> findById(Long id) {
         Optional<Site> site = sites.stream()
             .filter(i -> i.getId().equals(id))
             .findFirst();
-        return Mono.just(site);
+        return Mono.justOrEmpty(site);
     }
 
     public Mono<Set<Site>> findAll() {

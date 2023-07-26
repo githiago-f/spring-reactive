@@ -25,7 +25,7 @@ class SiteServiceApplicationTests {
 		webTestClient.get().uri("/sites")
 			.exchange().expectStatus().isOk()
 			.expectBody(Set.class).value(sites -> {
-				assertThat(sites.size()).isEqualTo(4);
+				assertThat(sites.size()).isEqualTo(10);
 			});
 	}
 
