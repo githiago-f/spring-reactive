@@ -14,7 +14,6 @@ public class SiteRouter {
     @Bean
     RouterFunction<ServerResponse> route(SiteController handler) {
         return RouterFunctions
-            .route(GET("/sites"), handler::list)
-            .andRoute(GET("/sites/{id}"), handler::view);
+            .route(GET("/sites/{id}"), handler::view);
     }
 }

@@ -1,14 +1,10 @@
 package com.example.siteservice.functional.controller;
 
-import java.util.Optional;
-
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import com.example.siteservice.entity.Site;
 import com.example.siteservice.entity.SiteRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,26 +20,11 @@ public class SiteController {
         this.siteRepository = siteRepository;
     }
 
-    private Mono<ServerResponse> toResponse(Optional<Site> site) {
-        log.info("Mono is empty: {}", site);
-        if(site.isEmpty()) {
-            return ServerResponse.status(404)
-                .body(BodyInserters.fromValue("Site not found"));
-        }
-        return ServerResponse.ok().body(BodyInserters.fromValue(site.get()));
-    }
-
-    public Mono<ServerResponse> list(ServerRequest request) {
-        log.info("check list of sites on database");
-        return siteRepository.findAll()
-            .map(BodyInserters::fromValue)
-            .flatMap(ServerResponse.ok()::body);
-    }
-
     public Mono<ServerResponse> view(ServerRequest request) {
-        Long id = Long.valueOf(request.pathVariable("id"));
+        Integer id = Integer.valueOf(request.pathVariable("id"));
         log.info("Viewing site of id: {}", id);
         return siteRepository.findById(id)
-            .flatMap(this::toResponse);
+            .flatMap(site -> ServerResponse.ok().body(BodyInserters.fromValue(site)))
+            .switchIfEmpty(ServerResponse.notFound().build());
     }
 }

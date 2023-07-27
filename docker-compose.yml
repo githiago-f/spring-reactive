@@ -1,17 +1,11 @@
 version: '3.7'
 
 services:
-  site-service:
-    container_name: site-service
-    build:
-      context: .
-      dockerfile: ./src/main/docker/Dockerfile.dev
+  database:
+    image: postgres
     ports:
-      - '8080:8080'
-    volumes:
-      - app:/opt/app
-    cpus: 0.25
-    mem_limit: 128M
-
-volumes:
-  app:
+      - '54321:5432'
+    environment:
+      - POSTGRES_USER=db
+      - POSTGRES_DB=db
+      - POSTGRES_PASSWORD=db

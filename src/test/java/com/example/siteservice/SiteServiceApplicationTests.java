@@ -34,7 +34,7 @@ class SiteServiceApplicationTests {
 		webTestClient.get().uri("/sites/{id}", Map.of("id", "1"))
 			.exchange().expectStatus().isOk()
 			.expectBody(Site.class).value(site -> {
-				assertThat(site.getId()).isEqualTo(1L);
+				assertThat(site.id()).isEqualTo(1);
 			});
 	}
 }
